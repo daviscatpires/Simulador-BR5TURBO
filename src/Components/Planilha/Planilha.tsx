@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
+import imagemTop from '../../Assets/Logo-Top.png';
+import imagemExpertise from '../../Assets/expertise-solu-removebg-preview.png';
+import imagemBR5 from '../../Assets/BR5-BENEFICIOS-BRANCO.png';
+import imagemBR5T from '../../Assets/BR5-TURBO.png';
 
 // Interfaces para definir a estrutura de dados
 interface Produto {
@@ -19,6 +23,7 @@ interface Empresa {
    // ... Definição das propriedades de uma empresa ...
   empresa: string;
   produtos: Produto[];
+  imagem: string;
 }
 
 type FieldName = 'nome' | 'preco' | 'consultoria360' | 'resultado1' | 'resultado2' | 'resultado3';
@@ -45,6 +50,13 @@ const TableContainer = styled.div`
   margin: 20px;
   overflow-x: auto;
 `;
+const SeparatorRow = styled.tr`
+  /* Estilização para a linha de separação */
+  height: 2px; /* Altura da linha de separação */
+  background-color: #ffd700; /* Cor de fundo da linha de separação */
+  margin-top: 10px; /* Espaço acima da linha de separação */
+  margin-bottom: 10px; /* Espaço abaixo da linha de separação */
+`;
 
 const StyledTable = styled.table`
   // ... Estilos para a tabela ...
@@ -68,6 +80,7 @@ const TableHeaderCell = styled.th`
   color: transparent;
   margin: 0;
   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+  font-size: 20px;
 `;
 
 const TableRow = styled.tr`
@@ -110,7 +123,7 @@ const CustomTd = styled.td<{ isEven: boolean }>`
   color: #ffd700;
   font-weight: bold;
   text-align: center;
-  font-size: 30px;
+  font-size: 15px;
 `;
 // Crie um novo componente estilizado para o input
 const StyledInput = styled.input`
@@ -151,8 +164,8 @@ const Planilha: React.FC = () => {
           resultado2: 0,
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 0.1) * 0.83) * 0.5', // Fórmula específica para o Seguro de Carro
-          formulaResultado2: '0', // Fórmula específica para o Seguro de Carro
-          formulaResultado3: '((consultoria360 * 0.1) * 0.83) * 0.5', // Fórmula específica para o Seguro de Carro
+          formulaResultado2: '-', // Fórmula específica para o Seguro de Carro
+          formulaResultado3: '', // Fórmula específica para o Seguro de Carro
         },
         {
           nome: 'Seguro casa',
@@ -162,8 +175,8 @@ const Planilha: React.FC = () => {
           resultado2: 0,
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 0.3) * 0.83) * 0.5', // Fórmula específica para o Seguro de Casa
-          formulaResultado2: '', // Fórmula específica para o Seguro de Casa
-          formulaResultado3: '((consultoria360 * 0.3) * 0.83) * 0.5', // Fórmula específica para o Seguro de Casa
+          formulaResultado2: '-', // Fórmula específica para o Seguro de Casa
+          formulaResultado3: '', // Fórmula específica para o Seguro de Casa
         },
         {
           nome: 'Seguro de Vida Familiar',
@@ -174,7 +187,7 @@ const Planilha: React.FC = () => {
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 1) * 0.83) * 0.5', // Fórmula específica para o Seguro de Vida Familia
           formulaResultado2: '((consultoria360 * 0.3) * 0.83) * 0.5', // Fórmula específica para o Seguro de Vida Familia
-          formulaResultado3: '((consultoria360 * 1) * 0.83) * 0.5', // Fórmula específica para o Seguro de Vida Familia
+          formulaResultado3: '', // Fórmula específica para o Seguro de Vida Familia
         },
         {
           nome: 'Plano de Saúde',
@@ -185,7 +198,7 @@ const Planilha: React.FC = () => {
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 3) * 0.83) * 0.5', // Fórmula específica para o Plano de Saúde
           formulaResultado2: '((consultoria360 * 0.02) * 0.83) * 0.5', // Fórmula específica para o Plano de Saúde
-          formulaResultado3: '((consultoria360 * 3) * 0.83) * 0.5', // Fórmula específica para o Plano de Saúde
+          formulaResultado3: '', // Fórmula específica para o Plano de Saúde
         },
         {
           nome: 'Seguro de Vida em Grupo',
@@ -196,7 +209,7 @@ const Planilha: React.FC = () => {
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 1) * 0.83) * 0.5', // Fórmula específica para o Seguro de Vida em Grupo
           formulaResultado2: '((consultoria360 * 0.3) * 0.83) * 0.5', // Fórmula específica para o Seguro de Vida em Grupo
-          formulaResultado3: '((consultoria360 * 1) * 0.83) * 0.5', // Fórmula específica para o Seguro de Vida em Grupo
+          formulaResultado3: '', // Fórmula específica para o Seguro de Vida em Grupo
         },
         {
           nome: 'Seguro Transporte',
@@ -205,9 +218,9 @@ const Planilha: React.FC = () => {
           resultado1: 0,
           resultado2: 0,
           resultado3: 0,
-          formulaResultado1: '0', // Fórmula específica para o Seguro Transporte
+          formulaResultado1: '-', // Fórmula específica para o Seguro Transporte
           formulaResultado2: '((consultoria360 * 0.3) * 0.83) * 0.5', // Fórmula específica para o Seguro Transporte
-          formulaResultado3: '0', // Fórmula específica para o Seguro Transporte
+          formulaResultado3: '', // Fórmula específica para o Seguro Transporte
         },
         {
           nome: 'Seguro Frota',
@@ -217,8 +230,8 @@ const Planilha: React.FC = () => {
           resultado2: 0,
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 0.1) * 0.83) * 0.5', // Fórmula específica para o Seguro Frota
-          formulaResultado2: '0', // Fórmula específica para o Seguro Frota
-          formulaResultado3: '((consultoria360 * 0.1) * 0.83) * 0.5', // Fórmula específica para o Seguro Frota
+          formulaResultado2: '-', // Fórmula específica para o Seguro Frota
+          formulaResultado3: '', // Fórmula específica para o Seguro Frota
         },
         {
           nome: 'Seguro Empresarial',
@@ -228,8 +241,8 @@ const Planilha: React.FC = () => {
           resultado2: 0,
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 0.3) * 0.83) * 0.5', // Fórmula específica para o Seguro Empresarial
-          formulaResultado2: '0', // Fórmula específica para o Seguro Empresarial
-          formulaResultado3: '((consultoria360 * 0.3) * 0.83) * 0.5', // Fórmula específica para o Seguro Empresarial
+          formulaResultado2: '-', // Fórmula específica para o Seguro Empresarial
+          formulaResultado3: '', // Fórmula específica para o Seguro Empresarial
         },
         {
           nome: 'Equipamentos',
@@ -239,8 +252,8 @@ const Planilha: React.FC = () => {
           resultado2: 0,
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 0.2) * 0.83) * 0.5', // Fórmula específica para o Equipamentos
-          formulaResultado2: '0', // Fórmula específica para o Equipamentos
-          formulaResultado3: '((consultoria360 * 0.2) * 0.83) * 0.5', // Fórmula específica para o Equipamentos
+          formulaResultado2: '-', // Fórmula específica para o Equipamentos
+          formulaResultado3: '', // Fórmula específica para o Equipamentos
         },
         {
           nome: 'RC - Responsabilidade Civil',
@@ -250,8 +263,8 @@ const Planilha: React.FC = () => {
           resultado2: 0,
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 0.2) * 0.83) * 0.5', // Fórmula específica para o Responsabilidade Civil
-          formulaResultado2: '0', // Fórmula específica para o Responsabilidade Civil
-          formulaResultado3: '((consultoria360 * 0.2) * 0.83) * 0.5', // Fórmula específica para o Responsabilidade Civil
+          formulaResultado2: '-', // Fórmula específica para o Responsabilidade Civil
+          formulaResultado3: '', // Fórmula específica para o Responsabilidade Civil
         },
         {
           nome: 'Outros',
@@ -262,10 +275,11 @@ const Planilha: React.FC = () => {
           resultado3: 0,
           formulaResultado1: '0', // Fórmula específica para Outros
           formulaResultado2: '0', // Fórmula específica para Outros
-          formulaResultado3: '0', // Fórmula específica para Outros
+          formulaResultado3: '', // Fórmula específica para Outros
         },
         // ... outros produtos ...
       ],
+      imagem: imagemTop,
     },
     {
       empresa: 'Expertise',
@@ -278,8 +292,8 @@ const Planilha: React.FC = () => {
           resultado2: 0,
           resultado3: 0,
           formulaResultado1: '((consultoria360 * (3.8/100)) * 0.83) * 0.5', // Fórmula específica para o Consorcios Tradicionais ou Contemplados
-          formulaResultado2: '0', // Fórmula específica para o Consorcios Tradicionais ou Contemplados
-          formulaResultado3: '((consultoria360 * (3.8/100)) * 0.83) * 0.5', // Fórmula específica para o Consorcios Tradicionais ou Contemplados
+          formulaResultado2: '-', // Fórmula específica para o Consorcios Tradicionais ou Contemplados
+          formulaResultado3: '', // Fórmula específica para o Consorcios Tradicionais ou Contemplados
         },
         {
           nome: 'Vale Alimentação',
@@ -290,7 +304,7 @@ const Planilha: React.FC = () => {
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 0.25) * 0.83) * 0.5', // Fórmula específica para o Vale Alimentação
           formulaResultado2: '((consultoria360 * (0.3/100)) * 0.83) * 0.5', // Fórmula específica para o Vale Alimentação
-          formulaResultado3: '((consultoria360 * 0.25) * 0.83) * 0.5', // Fórmula específica para o Vale Alimentação
+          formulaResultado3: '', // Fórmula específica para o Vale Alimentação
         },
         {
           nome: 'Vale Refeição',
@@ -301,7 +315,7 @@ const Planilha: React.FC = () => {
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 0.18) * 0.83) * 0.5', // Fórmula específica para o Vale Refeição
           formulaResultado2: '((consultoria360 * 0.02) * 0.83) * 0.5', // Fórmula específica para o Vale Refeição
-          formulaResultado3: '((consultoria360 * 0.18) * 0.83) * 0.5', // Fórmula específica para o Vale Refeição
+          formulaResultado3: '', // Fórmula específica para o Vale Refeição
         },
         {
           nome: 'Financiamento de Imóvel ou Automóvel',
@@ -311,8 +325,8 @@ const Planilha: React.FC = () => {
           resultado2: 0,
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 0.03) * 0.83) * 0.5', // Fórmula específica para Financiamento de Imóvel ou Automóvel
-          formulaResultado2: '0', // Fórmula específica para Financiamento de Imóvel ou Automóvel
-          formulaResultado3: '((consultoria360 * 0.03) * 0.83) * 0.5', // Fórmula específica para Financiamento de Imóvel ou Automóvel
+          formulaResultado2: '-', // Fórmula específica para Financiamento de Imóvel ou Automóvel
+          formulaResultado3: '', // Fórmula específica para Financiamento de Imóvel ou Automóvel
         },
         {
           nome: 'Outros',
@@ -323,10 +337,11 @@ const Planilha: React.FC = () => {
           resultado3: 0,
           formulaResultado1: '0', // Fórmula específica para Outros
           formulaResultado2: '0', // Fórmula específica para Outros
-          formulaResultado3: '0', // Fórmula específica para Outros
+          formulaResultado3: '', // Fórmula específica para Outros
         },
 
       ],
+      imagem: imagemExpertise
     },
     {
       empresa: 'BR5 Benefícios',
@@ -340,7 +355,7 @@ const Planilha: React.FC = () => {
           resultado3: 0,
           formulaResultado1: 'consultoria360 * 1', // Fórmula específica para Telemedicina
           formulaResultado2: '(consultoria360 * 0.5)*0.5', // Fórmula específica para Telemedicina
-          formulaResultado3: 'consultoria360 * 1', // Fórmula específica para Telemedicina
+          formulaResultado3: '', // Fórmula específica para Telemedicina
         },
         {
           nome: 'Desconto em Energia',
@@ -350,8 +365,8 @@ const Planilha: React.FC = () => {
           resultado2: 0,
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 0.9) * 0.83) * 0.5', // Fórmula específica para Desconto de energia
-          formulaResultado2: '0', // Fórmula específica para Desconto de energia
-          formulaResultado3: '((consultoria360 * 0.9) * 0.83) * 0.5', // Fórmula específica para Desconto de energia
+          formulaResultado2: '-', // Fórmula específica para Desconto de energia
+          formulaResultado3: '', // Fórmula específica para Desconto de energia
         },
         {
           nome: 'Cartão combustível',
@@ -362,7 +377,7 @@ const Planilha: React.FC = () => {
           resultado3: 0,
           formulaResultado1: '((consultoria360 * 1) * 0.83) * 0.5', // Fórmula específica para o Seguro de Vida Familia
           formulaResultado2: '((consultoria360 * (0.3/100)) * 0.83) * 0.5', // Fórmula específica para o Seguro de Vida Familia
-          formulaResultado3: '((consultoria360 * 1) * 0.83) * 0.5', // Fórmula específica para o Seguro de Vida Familia
+          formulaResultado3: '', // Fórmula específica para o Seguro de Vida Familia
         },
         {
           nome: 'Cartão Premiação',
@@ -371,7 +386,7 @@ const Planilha: React.FC = () => {
           resultado1: 0,
           resultado2: 0,
           resultado3: 0,
-          formulaResultado1: '', // Fórmula específica para o Plano de Saúde
+          formulaResultado1: '-', // Fórmula específica para o Plano de Saúde
           formulaResultado2: '((consultoria360 * 0.02) * 0.83) * 0.5', // Fórmula específica para o Plano de Saúde
           formulaResultado3: '', // Fórmula específica para o Plano de Saúde
         },
@@ -382,9 +397,9 @@ const Planilha: React.FC = () => {
           resultado1: 0,
           resultado2: 0,
           resultado3: 0,
-          formulaResultado1: '', // Fórmula específica para o Seguro de Vida em Grupo
-          formulaResultado2: '((consultoria360 * 0.02) * 0.83) * 0.5', // Fórmula específica para o Seguro de Vida em Grupo
-          formulaResultado3: '', // Fórmula específica para o Seguro de Vida em Grupo
+          formulaResultado1: '-',
+          formulaResultado2: '((consultoria360 * 0.02) * 0.83) * 0.5',
+          formulaResultado3: '',
         },
         {
           nome: 'Outros',
@@ -395,11 +410,12 @@ const Planilha: React.FC = () => {
           resultado3: 0,
           formulaResultado1: '0', // Fórmula específica para o Seguro Transporte
           formulaResultado2: '0', // Fórmula específica para o Seguro Transporte
-          formulaResultado3: '0', // Fórmula específica para o Seguro Transporte
+          formulaResultado3: '', // Fórmula específica para o Seguro Transporte
         },
 
         // ... outros produtos ...
       ],
+      imagem: imagemBR5
     },
     {
       empresa: 'BR5 TURBO',
@@ -412,8 +428,8 @@ const Planilha: React.FC = () => {
           resultado2: 0,
           resultado3: 0,
           formulaResultado1: 'consultoria360 * 0.5', // Fórmula específica para o Vendas de licenças
-          formulaResultado2: '0', // Fórmula específica para o Vendas de licenças
-          formulaResultado3: 'consultoria360 * 0.5', // Fórmula específica para o Vendas de licenças
+          formulaResultado2: '-', // Fórmula específica para o Vendas de licenças
+          formulaResultado3: '', // Fórmula específica para o Vendas de licenças
         },
         {
           nome: 'Ecossistema de vendedores',
@@ -423,8 +439,8 @@ const Planilha: React.FC = () => {
           resultado2: 0,
           resultado3: 0,
           formulaResultado1: 'consultoria360 * 0.25', // Fórmula específica para Ecossistema de venvdedores
-          formulaResultado2: '0', // Fórmula específica para Ecossistema de venvdedores
-          formulaResultado3: 'consultoria360 * 0.25', // Fórmula específica para Ecossistema de venvdedores
+          formulaResultado2: '-', // Fórmula específica para Ecossistema de venvdedores
+          formulaResultado3: '', // Fórmula específica para Ecossistema de venvdedores
         },
         {
           nome: 'Ecossistema de Empresários',
@@ -434,11 +450,12 @@ const Planilha: React.FC = () => {
           resultado2: 0,
           resultado3: 0,
           formulaResultado1: 'consultoria360 * 0.05', // Fórmula específica para Ecossistema de empresários
-          formulaResultado2: '0', // Fórmula específica para Ecossistema de empresários
-          formulaResultado3: 'consultoria360 * 0.05', // Fórmula específica para Ecossistema de empresários
+          formulaResultado2: '-', // Fórmula específica para Ecossistema de empresários
+          formulaResultado3: '', // Fórmula específica para Ecossistema de empresários
         },
 
       ],
+      imagem: imagemBR5T
     },
     // ... outras empresas ...
   ]);
@@ -527,7 +544,13 @@ return (
               {empresa.produtos.map((produto: Produto, produtoIndex: number) => (
                 <TableRow key={`${empresaIndex}-${produtoIndex}`}>
                   {produtoIndex === 0 && (
-                    <TableCell rowSpan={empresa.produtos.length}>{empresa.empresa}</TableCell>
+                  <TableCell rowSpan={empresa.produtos.length}>
+                  <img
+                    src={empresa.imagem} // Use a imagem associada à empresa
+                    alt={empresa.empresa}
+                    style={{ width: '150px', height: 'auto' }} // Adicione um estilo para ajustar o tamanho da imagem
+                  />
+                </TableCell>
                   )}
                   <TableCell>{produto.nome}</TableCell>
                   <CustomTd isEven={produtoIndex % 2 === 0}>
@@ -548,11 +571,22 @@ return (
                       }
                     />
                     </CustomTd>
-                  <CustomTd isEven={produtoIndex % 2 === 0}>{produto.resultado1}</CustomTd>
-                  <CustomTd isEven={produtoIndex % 2 === 0}>{produto.resultado2}</CustomTd>
-                  <CustomTd isEven={produtoIndex % 2 === 0}>{produto.preco - produto.consultoria360}</CustomTd>
+                    <CustomTd isEven={produtoIndex % 2 === 0}>
+                    {produto.formulaResultado1 === '-' ? '-' : produto.resultado1.toFixed(2)}
+                  </CustomTd>
+                  <CustomTd isEven={produtoIndex % 2 === 0}>
+                    {produto.formulaResultado2 === '-' ? '-' : produto.resultado2.toFixed(2)}
+                  </CustomTd>
+                  <CustomTd isEven={produtoIndex % 2 === 0}>{produto.formulaResultado2 === 'Não se aplica'
+                      ? 'Não se aplica'
+                      : (produto.preco - produto.consultoria360).toFixed(2)}</CustomTd>
                 </TableRow>
-              ))}
+              ))}<br></br><br></br>
+              {empresaIndex < data.length - 1 && (
+              <SeparatorRow>
+                <td colSpan={7}></td> {/* Colspan deve ser igual ao número de colunas na tabela */}
+              </SeparatorRow>
+            )}
             </React.Fragment>
           ))}
         </tbody>
